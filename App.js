@@ -57,12 +57,10 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
   );
-  }
-  else{
+  } else {
+
     return(
-      <View>
-        <Login/>
-      </View>
+      <Login setUserLoggedIn={setUserLoggedIn}/>
     )
   }
 
@@ -70,5 +68,7 @@ export default function App() {
 
 
 const styles = StyleSheet.create({
-  
+  marginTo: {
+    marginTop: 10
+  }
 });
