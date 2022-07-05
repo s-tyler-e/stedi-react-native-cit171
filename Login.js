@@ -1,9 +1,15 @@
 import {useState} from "react";
 import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 
+//const getEmail = async (emailAddress) => {
+//  const loginResponse = await fetch('dev.stedi.me/validate', {
+//    method: 'GET',
+//    body:JSON.stringify()
+//  })
+//}
+
 const sendText = async (phoneNumber) => {
 
-  //using fetch, do a POST to https://dev.stedi.me/twofactorlogin/123-456-7890
   const loginResponse = await fetch('https://dev.stedi.me/twofactorlogin/'+ phoneNumber, {
     method: 'POST',
     headers: {
