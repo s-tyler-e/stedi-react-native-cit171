@@ -1,7 +1,7 @@
 import {useState} from "react";
 import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 
-//const getEmail = async (emailAddress) => {
+//const setUserName = async (userName) => {
 //  const loginResponse = await fetch('dev.stedi.me/validate', {
 //    method: 'GET',
 //    body:JSON.stringify()
