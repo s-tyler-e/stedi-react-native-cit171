@@ -5,6 +5,7 @@ function AppName() {
     return (
       <View style={styles.appName}>
         <Text style={styles.text}>STEDI Balance</Text>
+        
       </View>
     );
   }
