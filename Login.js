@@ -20,8 +20,8 @@ const sendText = async (phoneNumber) => {
   console.log('Login Response', loginResponseText);
 };
 
-const getToken = async({phoneNumber, oneTimePassword, setUserLoggedIn}) => {
-  const loginResponse = await fetch('https://dev.stedi.me/twofactorlogin', {
+const getToken = async({phoneNumber, oneTimePassword, setUserLoggedIn, setUserName}) => {
+  const tokenResponse = await fetch('https://dev.stedi.me/twofactorlogin', {
     method: 'POST',
     body:JSON.stringify([oneTimePassword, phoneNumber]),
     headers: {
@@ -29,12 +29,18 @@ const getToken = async({phoneNumber, oneTimePassword, setUserLoggedIn}) => {
       }
   });
 
-  const responseCode = loginResponse.status;
+  const responseCode = tokenResponse.status;
   console.log("Response Status Code", responseCode);
   if(responseCode == 500){
     setUserLoggedIn(true);
   }
-  const loginResponseString = await loginResponse.text();
+  const tokenResponseString = await tokenResponse.text();
+  console.log("Token", tokenResponseString);
+  const emailResponse = await fetch('https://dev.stedi.me/'+tokenResponseString);
+
+  const email = await emailResponse.text();
+
+  props.setUserName(email);
 }
 
 const Login = (props) => {
