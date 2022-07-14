@@ -15,7 +15,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
 
   if(userLoggedIn){
   return (
@@ -27,7 +27,7 @@ export default function App() {
       >
         <Tab.Screen
           name='Home'
-          children={()=><Home userLoggedIn={userName}/>}
+          children={()=><Home loggedInUser={emailAddress}/>}
           //component={Home}
           options={{
             tabBarLabel: 'Home',
@@ -62,7 +62,7 @@ export default function App() {
   } else {
 
     return(
-      <Login setUserLoggedIn={setUserLoggedIn} setUserName={setUserName}/>
+      <Login setUserLoggedIn={setUserLoggedIn} setEmailAddress={setEmailAddress}/>
     )
   }
 

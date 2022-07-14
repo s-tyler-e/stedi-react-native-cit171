@@ -1,13 +1,6 @@
 import {useState} from "react";
 import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 
-//const setUserName = async (userName) => {
-//  const loginResponse = await fetch('dev.stedi.me/validate', {
-//    method: 'GET',
-//    body:JSON.stringify()
-//  })
-//}
-
 const sendText = async (phoneNumber) => {
 
   const loginResponse = await fetch('https://dev.stedi.me/twofactorlogin/'+ phoneNumber, {
@@ -20,10 +13,12 @@ const sendText = async (phoneNumber) => {
   console.log('Login Response', loginResponseText);
 };
 
-const getToken = async({phoneNumber, oneTimePassword, setUserLoggedIn, setUserName}) => {
+const getToken = async({phoneNumber, oneTimePassword, setUserLoggedIn, setEmailAddress}) => {
+  console.log("oneTimePassword", oneTimePassword)
+  console.log(phoneNumber)
   const tokenResponse = await fetch('https://dev.stedi.me/twofactorlogin', {
     method: 'POST',
-    body:JSON.stringify([oneTimePassword, phoneNumber]),
+    body:JSON.stringify({oneTimePassword, phoneNumber}),
     headers: {
        'Content-Type': 'application/json'
       }
@@ -31,16 +26,18 @@ const getToken = async({phoneNumber, oneTimePassword, setUserLoggedIn, setUserNa
 
   const responseCode = tokenResponse.status;
   console.log("Response Status Code", responseCode);
-  if(responseCode == 500){
+  if(responseCode == 200){
     setUserLoggedIn(true);
-  }
+  
   const tokenResponseString = await tokenResponse.text();
   console.log("Token", tokenResponseString);
-  const emailResponse = await fetch('https://dev.stedi.me/'+tokenResponseString);
 
-  const email = await emailResponse.text();
+  const emailResponse = await fetch('https://dev.stedi.me/validate/'+tokenResponseString,);
 
-  props.setUserName(email);
+  const emailResponseString = await emailResponse.text();
+  console.log("email text", emailResponseString);
+  setEmailAddress(emailResponseString);
+  }
 }
 
 const Login = (props) => {
@@ -74,7 +71,7 @@ const Login = (props) => {
       />
       <TouchableOpacity
       style={styles.button}
-      onPress={()=>{getToken({phoneNumber, setUserLoggedIn:props.setUserLoggedIn});
+      onPress={()=>{getToken({phoneNumber, oneTimePassword, setUserLoggedIn:props.setUserLoggedIn, setEmailAddress:props.setEmailAddress});
       }}
       >
         <Text>Login</Text>        
